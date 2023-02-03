@@ -41,13 +41,13 @@ public class LadderAndSnake {
             {0,0,-25,0,-71,0,-21,-20,0,0}, //91-100
     };
     private int numOfPlayers;
-    private Player player1;
-    private Player player2;
+   // private Player player1;
+    //private Player player2;
 
     public LadderAndSnake() {
         numOfPlayers = 2;
-        player1 = new Player("Player 1");
-        player2 = new Player("Player 2");
+        //player1 = new Player("Player 1");
+        //player2 = new Player("Player 2");
     }
 
     /**
@@ -93,21 +93,30 @@ public class LadderAndSnake {
         }
         return player;
     }
-    public void play() {
+//    public void play(){
+//        Scanner scanner = new Scanner(System.in);
+//        boolean winner = false;
+//        int dice = 0;
+//
+//
+//
+//
+//    }
+    public void play(Player player1, Player player2) {
         int dice = 0;
         boolean flag = true;
         String input = "";
         boolean winner = false;
         Scanner scanner = new Scanner(System.in);
 
-        Player firstPlayer = this.player1;
-        Player secondPlayer = this.player2;
+        Player firstPlayer = player1;
+        Player secondPlayer = player2;
         firstPlayer = decideOrder();
 
         //figure out which player is starting
-        if(firstPlayer.equals("Player 1"))
+        if(firstPlayer.getName().equals("Player 1"))
             secondPlayer.setName("Player 2");
-        else
+        else if(firstPlayer.getName().equals("Player 2"))
             secondPlayer.setName("Player 1");
 
         //loop while winner is false
@@ -153,7 +162,7 @@ public class LadderAndSnake {
 
             //respectively divide or modulo to get row and column for the 2d array
             int x = startersPosition / 10;
-            int y = startersPosition % 10;
+            int y = (startersPosition % 10) - 1;
 
             //prints landing space and travelling space if there is ladder or snake
             if (board[x][y] != 0) {
@@ -175,8 +184,6 @@ public class LadderAndSnake {
             }
 
             //Now for second player
-            //reinitialize input
-            input = "";
             //while loop to execute until player types a valid option of y or n to rolling the dice
             flag = true;
             while (flag) {
@@ -216,7 +223,7 @@ public class LadderAndSnake {
 
             //respectively divide and modulo to attain row and column for array
             x = secondsPosition / 10;
-            y = secondsPosition % 10;
+            y = (secondsPosition % 10) - 1;
 
             //prints landing space and travelling space if there is ladder or snake
             if (board[x][y] != 0) {
