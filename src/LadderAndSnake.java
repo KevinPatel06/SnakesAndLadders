@@ -158,11 +158,11 @@ public class LadderAndSnake {
             }
             //check if dice roll + position exceeds 100
             if(startersPosition > 100)
-                startersPosition = 100 - (100 - startersPosition);
+                startersPosition = 100 - (startersPosition - 100);
 
             //respectively divide or modulo to get row and column for the 2d array
-            int x = startersPosition / 10;
-            int y = (startersPosition % 10) - 1;
+            int x = (startersPosition - 1) / 10;
+            int y = (startersPosition - 1) % 10;
 
             //prints landing space and travelling space if there is ladder or snake
             if (board[x][y] != 0) {
@@ -177,10 +177,15 @@ public class LadderAndSnake {
                 startersPosition += board[x][y];
                 firstPlayer.setPosition(startersPosition);
             }
+            if(startersPosition == 100){
+                System.out.println(firstPlayer.getName() + " wins!");
+                System.exit(0);
+            }
             //checks if first player lands on same square as second player
             if(firstPlayer.getPosition() == secondPlayer.getPosition()){
                 System.out.println("Landed in the same square! Kicking second player back to square 0");
                 secondPlayer.setPosition(0);
+                secondsPosition = 0;
             }
 
             //Now for second player
@@ -219,11 +224,11 @@ public class LadderAndSnake {
             }
             //check if dice roll + position exceeds 100
             if(secondsPosition > 100)
-                secondsPosition = 100 - (100 - secondsPosition);
+                secondsPosition = 100 - (secondsPosition - 100);
 
             //respectively divide and modulo to attain row and column for array
-            x = secondsPosition / 10;
-            y = (secondsPosition % 10) - 1;
+            x = (secondsPosition - 1) / 10;
+            y = (secondsPosition - 1) % 10;
 
             //prints landing space and travelling space if there is ladder or snake
             if (board[x][y] != 0) {
@@ -238,10 +243,15 @@ public class LadderAndSnake {
                 secondsPosition += board[x][y];
                 secondPlayer.setPosition(secondsPosition);
             }
+            if(secondsPosition == 100){
+                System.out.println(firstPlayer.getName() + " wins!");
+                System.exit(0);
+            }
             //checks if second player lands on same square as first player
             if(secondPlayer.getPosition() == firstPlayer.getPosition()){
                 System.out.println("Landed in the same square! Kicking first player back to square 0");
                 firstPlayer.setPosition(0);
+                startersPosition = 0;
             }
 
         }
