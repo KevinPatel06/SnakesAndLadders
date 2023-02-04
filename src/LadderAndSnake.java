@@ -1,33 +1,18 @@
-import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
+/**
+ * Written by: Kevin Patel 40171107
+ * COMP 249
+ * Assignment # 1 PART I
+ * February 6th 2023
+ */
 
 /**
- * JAVADOC
+ * class to create a snakes and ladders board utilizing 2D array manipulation and create an engine for the game.
  */
-/*
-    snakes:
-    98 -> -20
-    97 -> -21
-    95 -> -71
-    93 -> -25
-    79 -> -60
-    64 -> -14
-    48 -> -18
-    ladders:
-    1 -> 37
-    4 -> 10
-    9 -> 22
-    28 -> 56
-    21 -> 21
-    36 -> 8
-    51 -> 16
-    71 -> 20
-    80 -> 20
-
-     */
 public class LadderAndSnake {
     //hardcode board since it never changes
+    private int numOfPlayers;
     private int board[][] = {
             {37,0,0,10,0,0,0,0,22,0}, //1-10
             {0,0,0,0,0,0,0,0,0,0}, //11-20
@@ -40,18 +25,16 @@ public class LadderAndSnake {
             {0,0,0,0,0,0,0,0,0,0}, //81-90
             {0,0,-25,0,-71,0,-21,-20,0,0}, //91-100
     };
-    private int numOfPlayers;
-   // private Player player1;
-    //private Player player2;
 
+    /**
+     * default constructor to initialize numOfPlayers
+     */
     public LadderAndSnake() {
         numOfPlayers = 2;
-        //player1 = new Player("Player 1");
-        //player2 = new Player("Player 2");
     }
 
     /**
-     *
+     * method to return a random number from 1-6
      * @return a random int between 1 and 6 both inclusive
      */
     public int flipDice(){
@@ -60,31 +43,39 @@ public class LadderAndSnake {
     }
 
     /**
-     *
+     * method to decide the order of which player starts first
      * @return The player that starts
      */
     public Player decideOrder(){
         System.out.println("Now deciding which player will start playing;");
+        //Number of attempts start at 1
         int attempts = 1;
         boolean flag = true;
         Player player = new Player();
+
+        //while loop loops until a player rolls higher than the other player
         while(flag){
+            //randomizes a dice number for both num1 and num2
             int num1 = flipDice();
             System.out.println("Player 1 got a dice value of " + num1);
             int num2 = flipDice();
             System.out.println("Player 2 got a dice value of " + num2);
+
+            //if player 1's number is greater than player 2's then return player 1 as the starting player
             if(num1 > num2){
                 System.out.println("Reached final decision on order of playing: Player 1 then Player 2. " +
                         "It took a total of " + attempts + " attempt before reaching a decision");
                 player.setName("Player 1");
                 flag = false;
             }
+            //if player 2's number is greater than player 1's then return player 2 as the starting player
             else if(num2 > num1){
                 System.out.println("Reached final decision on order of playing: Player 2 then Player 1. " +
                         "It took " + attempts + " attempt before reaching a decision");
                 player.setName("Player 2");
                 flag = false;
             }
+            //if the two values are equal to each other then increment the number of attempts and repeat the loop
             else if(num1 == num2){
                 System.out.println("A tie was achieved between Player 1 and Player 2. Attempting to " +
                         "break the tie");
@@ -93,15 +84,12 @@ public class LadderAndSnake {
         }
         return player;
     }
-//    public void play(){
-//        Scanner scanner = new Scanner(System.in);
-//        boolean winner = false;
-//        int dice = 0;
-//
-//
-//
-//
-//    }
+
+    /**
+     * method to run the core engine of the game Snakes and Ladders
+     * @param player1 the first player
+     * @param player2 the second player
+     */
     public void play(Player player1, Player player2) {
         int dice = 0;
         boolean flag = true;
@@ -109,18 +97,21 @@ public class LadderAndSnake {
         boolean winner = false;
         Scanner scanner = new Scanner(System.in);
 
+        //set first and second player equal to class' players
         Player firstPlayer = player1;
         Player secondPlayer = player2;
+        //set first player to be starting player returned from method
         firstPlayer = decideOrder();
 
-        //figure out which player is starting
+        //determines which player is starting based off firstPlayer's value
         if(firstPlayer.getName().equals("Player 1"))
             secondPlayer.setName("Player 2");
         else if(firstPlayer.getName().equals("Player 2"))
             secondPlayer.setName("Player 1");
 
-        //loop while winner is false
+        //loop until winner is determined
         while(!winner) {
+            //get current position of first and second player
             int startersPosition = firstPlayer.getPosition();
             int secondsPosition = secondPlayer.getPosition();
 
@@ -168,6 +159,7 @@ public class LadderAndSnake {
             if (board[x][y] != 0) {
                 System.out.print("; gone to square " + startersPosition + " then to square ");
                 startersPosition += board[x][y];
+                //set new position
                 firstPlayer.setPosition(startersPosition);
                 System.out.println(startersPosition);
             }
@@ -177,6 +169,7 @@ public class LadderAndSnake {
                 startersPosition += board[x][y];
                 firstPlayer.setPosition(startersPosition);
             }
+            //win condition when player reaches square 100
             if(startersPosition == 100){
                 System.out.println(firstPlayer.getName() + " wins!");
                 System.exit(0);
@@ -201,7 +194,7 @@ public class LadderAndSnake {
                 if (input.equals("y"))
                     flag = false;
 
-                    //if the input is n then will end the game
+                //if the input is n then will end the game
                 else if (input.equals("n")) {
                     System.out.print("\nEnding the game");
                     System.exit(0);
@@ -243,6 +236,7 @@ public class LadderAndSnake {
                 secondsPosition += board[x][y];
                 secondPlayer.setPosition(secondsPosition);
             }
+            //win condition if player is in square 100
             if(secondsPosition == 100){
                 System.out.println(firstPlayer.getName() + " wins!");
                 System.exit(0);
@@ -253,10 +247,7 @@ public class LadderAndSnake {
                 firstPlayer.setPosition(0);
                 startersPosition = 0;
             }
-
         }
-
-
     }
 }
 
